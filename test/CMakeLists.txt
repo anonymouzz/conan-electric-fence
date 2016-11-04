@@ -1,10 +1,15 @@
 PROJECT(MyHello)
 cmake_minimum_required(VERSION 2.8)
 
-include(conanbuildinfo.cmake)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 CONAN_BASIC_SETUP()
 
 ADD_EXECUTABLE(test test.c)
 include_directories(${CONAN_INCLUDE_DIRS})
 target_link_libraries(test ${CONAN_LIBS})
 
+IF(NOT BUILD_SHARED_LIBS STREQUAL "ON" )
+    IF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+        set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+    ENDIF( CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" )
+ENDIF()

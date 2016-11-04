@@ -4,8 +4,8 @@ import os
 
 
 ############### CONFIGURE THESE VALUES ##################
-default_user = "lasote"
-default_channel = "testing"
+default_user = "anonymouz"
+default_channel = "stable"
 #########################################################
 
 channel = os.getenv("CONAN_CHANNEL", default_channel)
@@ -20,12 +20,12 @@ class DefaultNameConan(ConanFile):
 
     def build(self):
         cmake = CMake(self.settings)
-        self.run('cmake . %s' % cmake.command_line)
-        self.run("cmake --build . %s" % cmake.build_config)
+        self.run('cmake %s %s' % (self.conanfile_directory, cmake.command_line))
+        self.run("cmake --build %s %s" % (self.conanfile_directory, cmake.build_config))
 
     def imports(self):
         self.copy(pattern="*.dll", dst="bin", src="bin")
         self.copy(pattern="*.dylib", dst="bin", src="lib")
-        
+
     def test(self):
         self.run("cd bin && .%stest" % os.sep)
