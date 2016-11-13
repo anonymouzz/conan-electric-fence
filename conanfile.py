@@ -39,7 +39,7 @@ class ElectricFenceConan(ConanFile):
 
         cmake = CMake(self.settings)
 
-        self.run("mkdir -p %s/_build"  % self.ZIP_FOLDER_NAME)
+        os.mkdir(os.path.join(self.ZIP_FOLDER_NAME, '_build'))
         cd_build = "cd %s/_build" % self.ZIP_FOLDER_NAME
         shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else ""
         self.run('%s && cmake .. %s %s' % (cd_build, cmake.command_line, shared))
